@@ -1,4 +1,6 @@
 export const APP_CONSTANT = {
+    LIGHT_COLOR: '#1E90FF',
+    DARK_COLOR: '#1E90FF',
     YOUR_NUMBERS: 'Your Numbers',
     DELETE_ROW: 'delete row',
     ADD_Play: 'Add play',
