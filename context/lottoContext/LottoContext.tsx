@@ -18,30 +18,36 @@ const LottoContext = createContext<LottoContextType>({
 });
 
 export const LottoProvider = ({ children }: LottoProviderProps) => {
-
   const [plays, setPlays] = useState<number[][]>([]);
   const toast = useToast();
 
-  const addPlays = (numbers: number[]) => {
+  // Tp add a new play if it's not a duplicate and within the limit as < 3
+  const addPlays = (numbers: number[]): boolean => {
     const sorted = [...numbers].sort((a, b) => a - b);
-    const isDuplicate = plays.some((play: number[]) =>
-      play.length === sorted.length &&
-      play.every((num: number, i: number) => num === sorted[i])
+
+    const isDuplicate = plays.some(
+      (play) =>
+        play.length === sorted.length &&
+        play.every((num, i) => num === sorted[i])
     );
+
     if (plays.length >= 3) {
       toast.show('Limit reached.', { type: 'warning' });
       return false;
     }
+
     if (isDuplicate) {
       toast.show('Duplicate play number.', { type: 'warning' });
       return false;
     }
+
     setPlays([...plays, sorted]);
     return true;
   };
 
+  // To delete a play by index value
   const deletePlays = (index: number) => {
-    setPlays(plays.filter((_: number[], i: number) => i !== index));
+    setPlays((prev) => prev.filter((_, i) => i !== index));
     toast.show('Play number deleted.', { type: 'success' });
   };
 
